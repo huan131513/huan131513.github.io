@@ -147,7 +147,7 @@ const products = [
         price: 129.99,
         category: "A",
         isOnSale: true,
-        image: "/Users/pengzihuan/Documents/GitHub/wp1141/hw4/image/pillow_cat.png"
+        image: "image/pillow_cat.png"
     },
     {
         id: 2,
@@ -156,7 +156,7 @@ const products = [
         price: 299.99,
         category: "A",
         isOnSale: false,
-        image: "/Users/pengzihuan/Documents/GitHub/wp1141/hw4/image/淺水貓.png"
+        image: "image/淺水貓.png"
     },
     {
         id: 3,
@@ -165,7 +165,7 @@ const products = [
         price: 899.99,
         category: "A",
         isOnSale: false,
-        image: "/Users/pengzihuan/Documents/GitHub/wp1141/hw4/image/雞雞貓.png"
+        image: "image/雞雞貓.png"
     },
     {
         id: 4,
@@ -174,7 +174,7 @@ const products = [
         price: 699.99,
         category: "A",
         isOnSale: false,
-        image: "/Users/pengzihuan/Documents/GitHub/wp1141/hw4/image/兔兔貓.png"
+        image: "image/兔兔貓.png"
     },
     {
         id: 5,
@@ -183,7 +183,7 @@ const products = [
         price: 199.99,
         category: "A",
         isOnSale: false,
-        image: "/Users/pengzihuan/Documents/GitHub/wp1141/hw4/image/尤達呆呆貓.png"
+        image: "image/尤達呆呆貓.png"
     },
     {
         id: 6,
@@ -192,7 +192,7 @@ const products = [
         price: 149.99,
         category: "A",
         isOnSale: false,
-        image: "/Users/pengzihuan/Documents/GitHub/wp1141/hw4/image/長條珍珠奶茶.png"
+        image: "image/長條珍珠奶茶.png"
     },
     {
         id: 7,
@@ -201,7 +201,7 @@ const products = [
         price: 399.99,
         category: "B",
         isOnSale: false,
-        image: "/Users/pengzihuan/Documents/GitHub/wp1141/hw4/image/小逼.jpg"
+        image: "image/小逼.jpg"
     },
     {
         id: 8,
@@ -210,7 +210,7 @@ const products = [
         price: 499.99,
         category: "A",
         isOnSale: false,
-        image: "/Users/pengzihuan/Documents/GitHub/wp1141/hw4/image/茶茶與鼠鼠.png"
+        image: "image/茶茶與鼠鼠.png"
     },
     {
         id: 9,
@@ -219,7 +219,7 @@ const products = [
         price: 249.99,
         category: "A",
         isOnSale: true,
-        image: "/Users/pengzihuan/Documents/GitHub/wp1141/hw4/image/站坐貓.png"
+        image: "image/站坐貓.png"
     },
     {
         id: 10,
@@ -228,7 +228,7 @@ const products = [
         price: 599.99,
         category: "B",
         isOnSale: false,
-        image: "/Users/pengzihuan/Documents/GitHub/wp1141/hw4/image/石膏雞.jpg"
+        image: "image/石膏雞.jpg"
     },
     {
         id: 11,
@@ -237,7 +237,7 @@ const products = [
         price: 349.99,
         category: "A",
         isOnSale: true,
-        image: "/Users/pengzihuan/Documents/GitHub/wp1141/hw4/image/饋手貓.png"
+        image: "image/饋手貓.png"
     },
     {
         id: 12,
@@ -246,7 +246,7 @@ const products = [
         price: 39.99,
         category: "B",
         isOnSale: false,
-        image: "/Users/pengzihuan/Documents/GitHub/wp1141/hw4/image/打字雞.jpg"
+        image: "image/打字雞.jpg"
     },
     {
         id: 13,
@@ -255,7 +255,7 @@ const products = [
         price: 39.99,
         category: "C",
         isOnSale: false,
-        image: "/Users/pengzihuan/Documents/GitHub/wp1141/hw4/image/莫比貓飼料.png"
+        image: "image/莫比貓飼料.png"
     },
     {
         id: 14,
@@ -264,7 +264,7 @@ const products = [
         price: 39.99,
         category: "C",
         isOnSale: false,
-        image: "/Users/pengzihuan/Documents/GitHub/wp1141/hw4/image/罐頭.png"
+        image: "image/罐頭.png"
     }
    
 ]
