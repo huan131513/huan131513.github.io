@@ -229,6 +229,24 @@ mark {
     }
 }
 
+@media (max-width: 770px) {
+    .search-container .input-group {
+        flex-wrap: nowrap !important;
+        width: 100%;
+    }
+    .search-container .input-group .form-control {
+        min-width: 0;
+        flex: 1 1 auto;
+    }
+    #searchInput {
+        width: 100%;
+    }
+    #clearSearchBtn {
+        flex: 0 0 auto;
+        white-space: nowrap;
+    }
+}
+
 /* Navbar styles */
 .navbar {
     background: linear-gradient(135deg, var(--primary-color), var(--accent-color)) !important;

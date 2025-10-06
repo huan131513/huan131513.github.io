@@ -351,6 +351,11 @@ class MemberManager {
         this.members.push(newMember);
         this.saveMembers();
         
+        // Auto login newly registered member
+        this.currentMember = newMember;
+        this.saveCurrentMember();
+        this.updateNavbar();
+        
         return { success: true, message: '註冊成功！獲得歡迎點數 100 點' };
     }
 
