@@ -494,6 +494,408 @@ mark {
     animation: bounce 1s;
 }
 
+/* Member modal styles */
+#memberModal .modal-content {
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px var(--shadow-color);
+    background-color: var(--card-bg);
+}
+
+#memberModal .modal-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: white;
+    border-radius: 1rem 1rem 0 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+#memberModal .modal-body {
+    padding: 2rem;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+}
+
+#memberModal .form-control {
+    border-color: var(--border-color);
+    border-radius: 0.5rem;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+#memberModal .form-control:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 0.25rem var(--shadow-color);
+    background-color: var(--card-bg);
+    color: var(--text-color);
+}
+
+#memberModal .form-label {
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+#memberModal .btn {
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+#memberModal .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+#memberModal .btn-primary {
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+    border: none;
+}
+
+#memberModal .btn-success {
+    background: linear-gradient(45deg, #28a745, #20c997);
+    border: none;
+}
+
+#memberModal .btn-outline-danger {
+    border-color: #dc3545;
+    color: #dc3545;
+}
+
+#memberModal .btn-outline-danger:hover {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+#memberModal .text-muted {
+    color: var(--text-color) !important;
+    opacity: 0.7;
+}
+
+#memberModal a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+#memberModal a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+/* Member dashboard styles */
+#memberDashboard .card {
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    background-color: var(--card-bg);
+    transition: all 0.3s ease;
+}
+
+#memberDashboard .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+#memberDashboard .display-4 {
+    color: var(--primary-color);
+}
+
+#memberDashboard .text-primary {
+    color: var(--primary-color) !important;
+}
+
+#memberDashboard .text-warning {
+    color: #ffc107 !important;
+}
+
+#memberDashboard .text-muted {
+    color: var(--text-color) !important;
+    opacity: 0.7;
+}
+
+/* Member info list styles */
+.member-info-list {
+    background-color: var(--light-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.member-info-item {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.member-info-item:last-child {
+    border-bottom: none;
+}
+
+.member-info-item:hover {
+    background-color: rgba(212, 165, 116, 0.05);
+    border-radius: 0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.member-info-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    font-size: 1.2rem;
+}
+
+.member-info-icon.email {
+    background-color: rgba(13, 110, 253, 0.1);
+    color: #0d6efd;
+}
+
+.member-info-icon.phone {
+    background-color: rgba(25, 135, 84, 0.1);
+    color: #198754;
+}
+
+.member-info-icon.points {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: #ffc107;
+}
+
+.member-info-content {
+    flex: 1;
+}
+
+.member-info-label {
+    font-size: 0.875rem;
+    color: var(--text-color);
+    opacity: 0.7;
+    margin-bottom: 0.25rem;
+}
+
+.member-info-value {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.points-display {
+    text-align: center;
+    background: linear-gradient(135deg, var(--secondary-color), var(--light-bg));
+    border: 2px solid var(--primary-color);
+    border-radius: 1rem;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.points-number {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0.5rem 0;
+    text-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.points-label {
+    font-size: 1.1rem;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+
+.points-description {
+    font-size: 0.9rem;
+    color: var(--text-color);
+    opacity: 0.7;
+}
+
+/* Purchase history styles */
+.purchase-history-section {
+    margin-top: 1.5rem;
+}
+
+.section-title {
+    color: var(--text-color);
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.purchase-history-list {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    background-color: var(--light-bg);
+}
+
+.purchase-item {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.purchase-item:last-child {
+    border-bottom: none;
+}
+
+.purchase-item:hover {
+    background-color: rgba(212, 165, 116, 0.05);
+}
+
+.purchase-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.purchase-date {
+    display: flex;
+    align-items: center;
+    color: var(--text-color);
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+.purchase-date i {
+    margin-right: 0.5rem;
+    color: var(--accent-color);
+}
+
+.purchase-total {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.purchase-items {
+    margin-bottom: 0.75rem;
+}
+
+.purchase-item-detail {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.25rem 0;
+    font-size: 0.9rem;
+}
+
+.item-name {
+    flex: 1;
+    color: var(--text-color);
+}
+
+.item-quantity {
+    color: var(--text-color);
+    opacity: 0.7;
+    margin: 0 1rem;
+}
+
+.item-price {
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.purchase-points {
+    display: flex;
+    align-items: center;
+    color: var(--text-color);
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.purchase-points i {
+    margin-right: 0.5rem;
+    color: #ffc107;
+}
+
+/* Responsive purchase history */
+@media (max-width: 768px) {
+    .purchase-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .purchase-item-detail {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+    
+    .item-quantity {
+        margin: 0;
+    }
+}
+
+/* Toast notification styles */
+.toast.bg-success {
+    background: linear-gradient(45deg, #28a745, #20c997) !important;
+}
+
+.toast.bg-success .toast-header {
+    background: transparent !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.toast.bg-success .toast-header .text-success {
+    color: white !important;
+}
+
+.toast.bg-success .toast-body {
+    background: white !important;
+    color: black !important;
+}
+
+.toast.bg-danger {
+    background: linear-gradient(45deg, #dc3545, #c82333) !important;
+}
+
+.toast.bg-info {
+    background: linear-gradient(45deg, #17a2b8, #138496) !important;
+}
+
+.toast-header {
+    background: rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+/* Member link styles */
+#memberLink {
+    transition: all 0.3s ease;
+}
+
+#memberLink:hover {
+    color: var(--light-bg) !important;
+    transform: scale(1.05);
+}
+
+/* Form validation styles */
+.form-control.is-invalid {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+}
+
+.form-control.is-valid {
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25);
+}
+
+/* Responsive member modal */
+@media (max-width: 768px) {
+    #memberModal .modal-body {
+        padding: 1.5rem;
+    }
+    
+    #memberDashboard .row .col-md-6 {
+        margin-bottom: 1rem;
+    }
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .card-img-top {

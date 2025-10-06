@@ -131,7 +131,29 @@ class ShoppingCart {
             return;
         }
         
-        alert(`結帳成功！\n總金額: $${this.getTotalPrice().toFixed(2)}\n商品數量: ${this.getTotalItems()}`);
+        const totalPrice = this.getTotalPrice();
+        const totalItems = this.getTotalItems();
+        
+        // Calculate points (1% of total price)
+        const pointsEarned = Math.floor(totalPrice * 0.01);
+        
+        // Add points to member if logged in
+        if (memberManager && memberManager.currentMember) {
+            memberManager.addPoints(pointsEarned);
+            
+            // Add purchase history
+            memberManager.addPurchaseHistory({
+                items: [...this.items], // Copy of items
+                totalPrice: totalPrice,
+                pointsEarned: pointsEarned,
+                totalItems: totalItems
+            });
+            
+            alert(`結帳成功！\n總金額: $${totalPrice.toFixed(2)}\n商品數量: ${totalItems}\n獲得點數: ${pointsEarned} 點 (消費金額的1%)\n目前總點數: ${memberManager.currentMember.points} 點`);
+        } else {
+            alert(`結帳成功！\n總金額: $${totalPrice.toFixed(2)}\n商品數量: ${totalItems}\n\n提示：登入會員可獲得購物點數（消費金額的1%）！`);
+        }
+        
         this.items = [];
         this.saveToStorage();
         this.updateCartDisplay();
@@ -143,7 +165,7 @@ const products = [
     {
         id: 1,
         name: "枕頭貓",
-        description: "高品質音效，舒適佩戴，長達8小時續航",
+        description: "有曬過太陽的香味喔☀️",
         price: 129.99,
         category: "A",
         isOnSale: true,
@@ -151,8 +173,8 @@ const products = [
     },
     {
         id: 2,
-        name: "淺水貓",
-        description: "健康監測，運動追蹤，防水設計",
+        name: "潛水貓",
+        description: "夢到自己在潛水喔",
         price: 299.99,
         category: "A",
         isOnSale: false,
@@ -206,7 +228,7 @@ const products = [
     {
         id: 8,
         name: "茶茶與鼠鼠.png",
-        description: "4K遊戲體驗，豐富遊戲庫，多人遊戲支援",
+        description: "相親相愛的好朋友",
         price: 499.99,
         category: "A",
         isOnSale: false,
@@ -215,7 +237,7 @@ const products = [
     {
         id: 9,
         name: "站坐貓",
-        description: "高效過濾，智能感應，靜音運作",
+        description: "你猜我是站著還是坐著？",
         price: 249.99,
         category: "A",
         isOnSale: true,
@@ -271,9 +293,219 @@ const products = [
 // Initialize shopping cart
 let cart;
 
+// Member management system
+class MemberManager {
+    constructor() {
+        this.currentMember = null;
+        this.members = this.loadMembers();
+        this.loadCurrentMember();
+    }
+
+    // Load members from localStorage
+    loadMembers() {
+        const stored = localStorage.getItem('members');
+        return stored ? JSON.parse(stored) : [];
+    }
+
+    // Save members to localStorage
+    saveMembers() {
+        localStorage.setItem('members', JSON.stringify(this.members));
+    }
+
+    // Load current member from sessionStorage
+    loadCurrentMember() {
+        const stored = sessionStorage.getItem('currentMember');
+        if (stored) {
+            this.currentMember = JSON.parse(stored);
+            this.updateNavbar();
+        }
+    }
+
+    // Save current member to sessionStorage
+    saveCurrentMember() {
+        if (this.currentMember) {
+            sessionStorage.setItem('currentMember', JSON.stringify(this.currentMember));
+        } else {
+            sessionStorage.removeItem('currentMember');
+        }
+    }
+
+    // Register new member
+    register(name, email, phone, password) {
+        // Check if email already exists
+        if (this.members.find(member => member.email === email)) {
+            return { success: false, message: '此電子郵件已被註冊' };
+        }
+
+        // Create new member
+        const newMember = {
+            id: Date.now(),
+            name: name,
+            email: email,
+            phone: phone,
+            password: password,
+            points: 100, // Welcome bonus
+            joinDate: new Date().toISOString()
+        };
+
+        this.members.push(newMember);
+        this.saveMembers();
+        
+        return { success: true, message: '註冊成功！獲得歡迎點數 100 點' };
+    }
+
+    // Login member
+    login(email, password) {
+        const member = this.members.find(m => m.email === email && m.password === password);
+        if (member) {
+            this.currentMember = member;
+            this.saveCurrentMember();
+            this.updateNavbar();
+            return { success: true, message: '登入成功！' };
+        } else {
+            return { success: false, message: '電子郵件或密碼錯誤' };
+        }
+    }
+
+    // Logout member
+    logout() {
+        this.currentMember = null;
+        this.saveCurrentMember();
+        this.updateNavbar();
+    }
+
+    // Add points to current member
+    addPoints(points) {
+        if (this.currentMember) {
+            this.currentMember.points += points;
+            this.saveCurrentMember();
+            this.updateMemberInStorage();
+        }
+    }
+
+    // Add purchase history
+    addPurchaseHistory(purchaseData) {
+        if (this.currentMember) {
+            if (!this.currentMember.purchaseHistory) {
+                this.currentMember.purchaseHistory = [];
+            }
+            
+            const purchase = {
+                id: Date.now(),
+                date: new Date().toISOString(),
+                items: purchaseData.items,
+                totalPrice: purchaseData.totalPrice,
+                pointsEarned: purchaseData.pointsEarned,
+                totalItems: purchaseData.totalItems
+            };
+            
+            this.currentMember.purchaseHistory.unshift(purchase); // Add to beginning
+            this.saveCurrentMember();
+            this.updateMemberInStorage();
+        }
+    }
+
+    // Get purchase history
+    getPurchaseHistory() {
+        if (this.currentMember && this.currentMember.purchaseHistory) {
+            return this.currentMember.purchaseHistory;
+        }
+        return [];
+    }
+
+    // Update member in members array
+    updateMemberInStorage() {
+        if (this.currentMember) {
+            const index = this.members.findIndex(m => m.id === this.currentMember.id);
+            if (index !== -1) {
+                this.members[index] = this.currentMember;
+                this.saveMembers();
+            }
+        }
+    }
+
+    // Update navbar display
+    updateNavbar() {
+        const memberText = document.getElementById('memberText');
+        if (this.currentMember) {
+            memberText.textContent = this.currentMember.name;
+        } else {
+            memberText.textContent = '會員登入';
+        }
+    }
+
+    // Show member dashboard
+    showMemberDashboard() {
+        if (this.currentMember) {
+            document.getElementById('memberName').textContent = this.currentMember.name;
+            document.getElementById('memberEmail').textContent = this.currentMember.email;
+            document.getElementById('memberPhone').textContent = this.currentMember.phone;
+            document.getElementById('memberPoints').textContent = this.currentMember.points;
+            this.renderPurchaseHistory();
+        }
+    }
+
+    // Render purchase history
+    renderPurchaseHistory() {
+        const purchaseHistory = this.getPurchaseHistory();
+        const container = document.getElementById('purchaseHistory');
+        
+        if (purchaseHistory.length === 0) {
+            container.innerHTML = `
+                <div class="text-center py-4 text-muted">
+                    <i class="bi bi-cart-x display-4"></i>
+                    <p class="mt-2">尚無購買紀錄</p>
+                    <small>開始購物來建立您的購買歷史吧！</small>
+                </div>
+            `;
+            return;
+        }
+        
+        container.innerHTML = purchaseHistory.map(purchase => {
+            const purchaseDate = new Date(purchase.date);
+            const formattedDate = purchaseDate.toLocaleDateString('zh-TW', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            return `
+                <div class="purchase-item">
+                    <div class="purchase-header">
+                        <div class="purchase-date">
+                            <i class="bi bi-calendar3"></i>
+                            ${formattedDate}
+                        </div>
+                        <div class="purchase-total">$${purchase.totalPrice.toFixed(2)}</div>
+                    </div>
+                    <div class="purchase-items">
+                        ${purchase.items.map(item => `
+                            <div class="purchase-item-detail">
+                                <div class="item-name">${item.name}</div>
+                                <div class="item-quantity">x${item.quantity}</div>
+                                <div class="item-price">$${(item.price * item.quantity).toFixed(2)}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="purchase-points">
+                        <i class="bi bi-star-fill"></i>
+                        獲得 ${purchase.pointsEarned} 點
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+}
+
+// Initialize member manager
+let memberManager;
+
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
     cart = new ShoppingCart();
+    memberManager = new MemberManager();
     renderProducts();
     setupEventListeners();
 });
@@ -493,6 +725,9 @@ function setupEventListeners() {
         }
     });
     
+    // Setup member event listeners
+    setupMemberEventListeners();
+    
     // Image click events (delegated event listeners)
     document.addEventListener('click', function(e) {
         // Product card click (entire card)
@@ -518,18 +753,125 @@ function setupEventListeners() {
             showImageModal(productId);
         }
         
-        // Add to cart from modal
-        if (e.target.id === 'addToCartFromModal') {
-            const productId = parseInt(e.target.getAttribute('data-product-id'));
-            addToCart(productId);
-            
-            // Close modal
-            const imageModal = bootstrap.Modal.getInstance(document.getElementById('imageModal'));
-            if (imageModal) {
-                imageModal.hide();
-            }
+    // Add to cart from modal
+    if (e.target.id === 'addToCartFromModal') {
+        const productId = parseInt(e.target.getAttribute('data-product-id'));
+        addToCart(productId);
+        
+        // Close modal
+        const imageModal = bootstrap.Modal.getInstance(document.getElementById('imageModal'));
+        if (imageModal) {
+            imageModal.hide();
+        }
+    }
+});
+
+// Member modal event listeners
+function setupMemberEventListeners() {
+    // Show register form
+    document.getElementById('showRegisterForm').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('registerForm').style.display = 'block';
+        document.getElementById('memberDashboard').style.display = 'none';
+    });
+
+    // Show login form
+    document.getElementById('showLoginForm').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('registerForm').style.display = 'none';
+        document.getElementById('loginForm').style.display = 'block';
+        document.getElementById('memberDashboard').style.display = 'none';
+    });
+
+    // Login form submission
+    document.getElementById('loginFormElement').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        
+        const result = memberManager.login(email, password);
+        showToast(result.message, result.success ? 'success' : 'error');
+        
+        if (result.success) {
+            showMemberDashboard();
         }
     });
+
+    // Register form submission
+    document.getElementById('registerFormElement').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const name = document.getElementById('registerName').value;
+        const email = document.getElementById('registerEmail').value;
+        const phone = document.getElementById('registerPhone').value;
+        const password = document.getElementById('registerPassword').value;
+        
+        const result = memberManager.register(name, email, phone, password);
+        showToast(result.message, result.success ? 'success' : 'error');
+        
+        if (result.success) {
+            showMemberDashboard();
+        }
+    });
+
+    // Logout button
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+        memberManager.logout();
+        showLoginForm();
+        showToast('已登出', 'info');
+    });
+
+    // Member modal show event
+    document.getElementById('memberModal').addEventListener('show.bs.modal', function() {
+        if (memberManager.currentMember) {
+            showMemberDashboard();
+        } else {
+            showLoginForm();
+        }
+    });
+}
+
+// Show login form
+function showLoginForm() {
+    document.getElementById('loginForm').style.display = 'block';
+    document.getElementById('registerForm').style.display = 'none';
+    document.getElementById('memberDashboard').style.display = 'none';
+}
+
+// Show member dashboard
+function showMemberDashboard() {
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('registerForm').style.display = 'none';
+    document.getElementById('memberDashboard').style.display = 'block';
+    memberManager.showMemberDashboard();
+}
+
+// Show toast notification
+function showToast(message, type = 'info') {
+    const toast = document.getElementById('cartToast');
+    const toastHeader = toast.querySelector('.toast-header');
+    const toastBody = toast.querySelector('.toast-body');
+    
+    // Update toast content
+    toastBody.textContent = message;
+    
+    // Update toast style based on type
+    toast.className = 'toast';
+    if (type === 'success') {
+        toast.classList.add('bg-success', 'text-white');
+        toastHeader.innerHTML = '<i class="bi bi-check-circle-fill me-2"></i><strong class="me-auto">成功</strong>';
+    } else if (type === 'error') {
+        toast.classList.add('bg-danger', 'text-white');
+        toastHeader.innerHTML = '<i class="bi bi-exclamation-triangle-fill me-2"></i><strong class="me-auto">錯誤</strong>';
+    } else if (type === 'info') {
+        toast.classList.add('bg-info', 'text-white');
+        toastHeader.innerHTML = '<i class="bi bi-info-circle-fill me-2"></i><strong class="me-auto">資訊</strong>';
+    }
+    
+    // Show toast
+    const bsToast = new bootstrap.Toast(toast);
+    bsToast.show();
+}
 }
 
 // Utility function to format currency
