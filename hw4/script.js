@@ -180,15 +180,7 @@ const products = [
         isOnSale: false,
         image: "image/淺水貓.png"
     },
-    {
-        id: 3,
-        name: "雞雞貓",
-        description: "ㄐㄐ",
-        price: 899.99,
-        category: "A",
-        isOnSale: false,
-        image: "image/雞雞貓.png"
-    },
+    
     {
         id: 4,
         name: "兔兔貓",
@@ -210,7 +202,7 @@ const products = [
     {
         id: 6,
         name: "長條貓",
-        description: "控制不住想要嚕兩下的衝動",
+        description: "長條貓貓",
         price: 149.99,
         category: "A",
         isOnSale: false,
